@@ -1,3 +1,5 @@
 # option-web-florian-lovis
 Florian Lovis
-Ceci est une super phrase sur la semaine 2
+
+
+Page watt : https://biby09.github.io/option-web-florian-lovis/2026-08-s1-watt/
