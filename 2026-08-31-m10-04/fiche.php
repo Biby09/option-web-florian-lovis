@@ -24,7 +24,7 @@ require __DIR__ . '/inc/header.php';
 <h2>Concerts</h2>
 <ul>
 <?php foreach ($concerts->deLEvenement($evenement->getId()) as $concert): ?>
-    <li><?php /* à vous : titre du concert, échappé */ ?></li>
+    <li><a href="/concerts/<?= $concert->getId() ?>"><?= htmlspecialchars($concert->getTitre(), ENT_QUOTES, 'UTF-8') ?></a></li>
 <?php endforeach; ?>
 </ul>
 <?php require __DIR__ . '/inc/footer.php'; ?>

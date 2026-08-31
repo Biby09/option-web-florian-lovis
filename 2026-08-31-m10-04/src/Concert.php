@@ -11,7 +11,7 @@ class Concert
         $this->id = (int) $ligne['id'];
         $this->titre = $ligne['titre'];
         $this->dateConcert = $ligne['date_concert'];
-        /* à vous : ranger evenement_id dans l'objet */
+        $this->evenementId = (int) $ligne['evenement_id'];
     }
 
     public function getId(): int

@@ -26,6 +26,7 @@ class EvenementManager
             'SELECT id, nom, ville, periode, description, slug FROM evenements WHERE slug = ?'
         );
         /* à vous : exécuter avec le slug */
+        $requete->execute([$slug]);
         $ligne = $requete->fetch(PDO::FETCH_ASSOC);
         return $ligne === false ? null : $this->depuisLigne($ligne);
     }

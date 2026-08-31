@@ -27,10 +27,14 @@ class ConcertManager
              ORDER BY date_concert'
         );
         /* à vous : exécuter avec l'identifiant du parent */
+        $requete->execute([$evenementId]);
         $lignes = $requete->fetchAll(PDO::FETCH_ASSOC);
         $objets = [];
         foreach ($lignes as $ligne) {
             // transformez ensuite chaque ligne en Concert
+            $concert = new Concert();
+            $concert->hydrate($ligne);
+            $objets[] = $concert;
         }
         return $objets;
     }

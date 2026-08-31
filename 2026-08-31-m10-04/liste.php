@@ -8,7 +8,7 @@ require __DIR__ . '/inc/header.php';
 <ul>
 <?php foreach ($evenements as $evenement): ?>
     <li>
-        <a href="fiche.php?id=<?= (int) $evenement->getId() ?>">
+        <a href="/festivals/<?= htmlspecialchars($evenement->getSlug(), ENT_QUOTES, 'UTF-8') ?>">
             <?= htmlspecialchars($evenement->getNom(), ENT_QUOTES, 'UTF-8') ?>
         </a>
     </li>
