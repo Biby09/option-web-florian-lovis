@@ -10,7 +10,9 @@ $evenements = $manager->tous();
 <ul>
 <?php foreach ($evenements as $evenement): ?>
     <li>
-        <!-- à vous : un lien vers fiche.php?id=… avec le nom visible, via getId() et getNom() -->
+        <a href="fiche.php?id=<?php echo $evenement->getId(); ?>">
+            <?php echo htmlspecialchars($evenement->getNom()); ?>
+        </a>
     </li>
 <?php endforeach; ?>
 </ul>

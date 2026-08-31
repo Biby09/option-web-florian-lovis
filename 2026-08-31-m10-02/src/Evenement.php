@@ -8,7 +8,10 @@ class Evenement
 
     public function hydrate(array $ligne): void
     {
-        /* à vous : recopier le nom de la ligne dans l'objet */
+        $this->id = $ligne['id'];
+        $this->nom = $ligne['nom'];
+        $this->ville = $ligne['ville'];
+        $this->periode = $ligne['periode'];
     }
 
     public function getId(): int
@@ -33,6 +36,6 @@ class Evenement
 
     public function aLieuDans(string $ville): bool
     {
-        /* à vous : comparer la ville de l'objet à la ville reçue */
+        return $this->ville === $ville;
     }
 }

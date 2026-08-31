@@ -16,6 +16,10 @@ class EvenementManager
         }
 
         /* à vous : fabriquer, hydrater et retourner un Evenement */
+
+        $evenement = new Evenement();
+        $evenement->hydrate($ligne);
+        return $evenement;
     }
 
     public function tous(): array
@@ -26,7 +30,9 @@ class EvenementManager
         $objets = [];
 
         foreach ($lignes as $ligne) {
-            /* à vous : ajouter un Evenement hydraté à $objets */
+            $evenement = new Evenement();
+            $evenement->hydrate($ligne);
+            $objets[] = $evenement;
         }
 
         return $objets;

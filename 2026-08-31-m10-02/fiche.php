@@ -11,8 +11,8 @@ if ($evenement === null) {
 <!doctype html>
 <html lang="fr">
 <meta charset="utf-8">
-<title><?php /* à vous : le nom de l'objet, échappé */ ?></title>
-<h1><?php /* à vous : $evenement->getNom(), échappé */ ?></h1>
-<p><?php /* à vous : ville et période */ ?></p>
-<p><?php /* à vous : afficher la phrase Nyon seulement si aLieuDans('Nyon') */ ?></p>
+<title><?php /* à vous : le nom de l'objet, échappé */echo htmlspecialchars($evenement->getNom())?></title>
+<h1><?php /* à vous : $evenement->getNom(), échappé */echo htmlspecialchars($evenement->getNom())?></h1>
+<p><?php /* à vous : ville et période */ echo htmlspecialchars($evenement->getVille()) . ' - ' . htmlspecialchars($evenement->getPeriode()); ?></p>
+<p><?php /* à vous : afficher la phrase Nyon seulement si aLieuDans('Nyon') */ if ($evenement->aLieuDans('Nyon')) { echo 'Nyon'; } ?></p>
 <p><a href="liste.php">Retour à la liste</a></p>
