@@ -41,7 +41,7 @@ class EvenementManager
         $requete = $this->pdo->prepare(
             'INSERT INTO evenements (nom) VALUES (?)'
         );
-        /* à vous : exécuter avec le nom */
+        $requete->execute([$nom]);
         return (int) $this->pdo->lastInsertId();
     }
 
@@ -50,7 +50,14 @@ class EvenementManager
         $requete = $this->pdo->prepare(
             'UPDATE evenements SET nom = ?, ville = ?, periode = ?, description = ? WHERE id = ?'
         );
-        /* à vous : exécuter avec les valeurs de l'objet, l'id en dernier */
+        $requete->execute([
+            $evenement->getNom(),
+            $evenement->getVille(),
+            $evenement->getPeriode(),
+            $evenement->getDescription(),
+            $evenement->getId()
+        ]);
+
     }
 
     public function supprimer(int $id): void
@@ -58,6 +65,6 @@ class EvenementManager
         $requete = $this->pdo->prepare(
             'DELETE FROM evenements WHERE id = ?'
         );
-        /* à vous : exécuter avec l'identifiant */
+        $requete->execute([$id]);
     }
 }

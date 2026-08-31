@@ -11,7 +11,9 @@ if ($evenement === null) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    /* à vous : supprimer via le manager, rediriger vers liste.php, exit */
+    $manager->supprimer($id);
+    header('Location: liste.php');
+    exit;
 }
 ?>
 <!doctype html>

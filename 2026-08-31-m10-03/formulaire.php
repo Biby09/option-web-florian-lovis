@@ -10,7 +10,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $nom === '') {
     $erreur = 'Le nom est obligatoire.';
 }
 
-/* Étape 3 : si POST valide, confier au manager puis rediriger. */
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $nom !== '') {
+    if ($evenement) {
+        $evenement->setNom($nom);
+        $manager->modifier($evenement);
+    } else {
+        $id = $manager->ajouter($nom);
+        header('Location: fiche.php?id=' . $id);
+        exit;
+    }
+    header('Location: liste.php');
+    exit;
+}
+
 ?>
 <!doctype html>
 <html lang="fr">
@@ -19,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $nom === '') {
 <p><a href="liste.php">Liste</a></p>
 <h1><?= $evenement ? 'Modifier' : 'Ajouter' ?></h1>
 <?php if ($erreur !== ''): ?>
-    <p><?php /* à vous : afficher $erreur, échappé */ ?></p>
+    <p><?php echo htmlspecialchars($erreur) ?></p>
 <?php endif; ?>
 <form method="post">
     <label>

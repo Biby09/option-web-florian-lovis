@@ -6,8 +6,7 @@ $evenements = $manager->tous();
 <html lang="fr">
 <meta charset="utf-8">
 <title>Événements</title>
-<p><a href="liste.php">Liste</a> · <a href="formulaire.php">Ajouter</a></p>
-<h1>Événements</h1>
+<?php require __DIR__ . '/inc/header.php'; ?>
 <ul>
 <?php foreach ($evenements as $evenement): ?>
     <li>
