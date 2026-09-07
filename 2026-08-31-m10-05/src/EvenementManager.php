@@ -27,7 +27,7 @@ class EvenementManager
         $requete = $this->pdo->prepare(
             'SELECT id, nom, ville, periode FROM evenements WHERE ville = ? ORDER BY nom'
         );
-        /* à vous : exécuter avec la ville */
+        $requete->execute([$ville]);
         $lignes = $requete->fetchAll(PDO::FETCH_ASSOC);
         $objets = [];
         foreach ($lignes as $ligne) {

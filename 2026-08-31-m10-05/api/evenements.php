@@ -10,7 +10,8 @@ foreach ($evenements as $evenement) {
     $sortie[] = [
         'id' => $evenement->getId(),
         'nom' => $evenement->getNom(),
-        /* à vous : ajouter la ville */
+        'date' => $evenement->getPeriode(),
+        'ville' => $evenement->getVille(),
     ];
 }
 

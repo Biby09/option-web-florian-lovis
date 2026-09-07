@@ -2,8 +2,8 @@
 require __DIR__ . '/bootstrap.php';
 
 $ville = trim($_GET['ville'] ?? '');
-/* à vous : tous() si ville vide, dansLaVille() sinon */
-$evenements = $manager->tous();
+    
+$evenements = $ville === '' ? $manager->tous() : $manager->dansLaVille($ville);
 ?>
 <!doctype html>
 <html lang="fr">
