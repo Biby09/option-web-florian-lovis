@@ -46,6 +46,19 @@ class RecetteManager{
         return $recettes;
     }
 
+    public function searchRecettes(string $query): array
+    {
+        $stmt = $this->pdo->prepare('SELECT rec_id AS id, rec_slug AS slug, rec_titre AS titre, rec_description AS description, rec_img_path AS img_path, rec_duree AS time FROM recettes WHERE rec_titre LIKE :query OR rec_description LIKE :query');
+        $stmt->execute(['query' => '%' . $query . '%']);
+        $recettes = [];
+        while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $recette = new Recette();
+            $recette->hydrate($ligne);
+            $recettes[] = $recette;
+        }
+        return $recettes;
+    }
+
     public function addRecette(Recette $recette): void
     {
         $stmt = $this->pdo->prepare('INSERT INTO recettes (rec_slug, rec_titre, rec_description, rec_img_path, rec_duree) VALUES (:slug, :titre, :description, :img_path, :duree)');
