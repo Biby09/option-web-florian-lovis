@@ -19,7 +19,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/bootstrap.php';
             echo '<ul class="recipe-grid">';
             foreach ($recettes as $recette) {
                 echo '<li class="recipe-card">';
-                echo '<a href="/view.php?id=' . htmlspecialchars((string) $recette->getId()) . '">';
+                echo '<a href="/recette/' . rawurlencode($recette->getSlug()) . '">';
                 if ($recette->getImgPath()) {
                     echo '<img class="recipe-card-image" src="' . htmlspecialchars($recette->getImgPath()) . '" alt="' . htmlspecialchars($recette->getTitre()) . '">';
                 } else {

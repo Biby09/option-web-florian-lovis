@@ -21,6 +21,19 @@ class RecetteManager{
         return null;
     }
 
+    public function getRecetteBySlug(string $slug): ?Recette
+    {
+        $stmt = $this->pdo->prepare('SELECT rec_id AS id, rec_slug AS slug, rec_titre AS titre, rec_description AS description, rec_img_path AS img_path, rec_duree AS time FROM recettes WHERE rec_slug = :slug');
+        $stmt->execute(['slug' => $slug]);
+        $ligne = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($ligne) {
+            $recette = new Recette();
+            $recette->hydrate($ligne);
+            return $recette;
+        }
+        return null;
+    }
+
     public function getAllRecettes(): array
     {
         $stmt = $this->pdo->query('SELECT rec_id AS id, rec_slug AS slug, rec_titre AS titre, rec_description AS description, rec_img_path AS img_path, rec_duree AS time FROM recettes');
@@ -60,6 +73,11 @@ class RecetteManager{
 
     public function deleteRecette(Recette $recette): void
     {
+        $imgPath = $recette->getImgPath();
+        if ($imgPath && file_exists($imgPath)) {
+            unlink($imgPath);
+        }
+        
         $stmt = $this->pdo->prepare('DELETE FROM recettes WHERE rec_id = :id');
         $stmt->execute(['id' => $recette->getId()]);
     }
