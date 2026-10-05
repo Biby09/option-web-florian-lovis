@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $img_path = '/uploads/' . $file_name;
     }
 
-    if ($titre && $description) {
+    if ($titre && $description && !$message) {
         $recette = new Recette();
         $recette->setTitre($titre);
         $recette->setDescription($description);

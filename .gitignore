@@ -1,1 +1,12 @@
 .DS_Store
+
+# WordPress (03_m09) : on ne versionne que wp-content (thèmes et plugins)
+/03_m09/*
+!/03_m09/wp-content/
+/03_m09/wp-content/uploads/
+/03_m09/wp-content/upgrade/
+/03_m09/wp-content/cache/
+/03_m09/wp-content/backup*/
+/03_m09/wp-content/debug.log
+/03_m09/wp-content/advanced-cache.php
+/03_m09/wp-content/object-cache.php
