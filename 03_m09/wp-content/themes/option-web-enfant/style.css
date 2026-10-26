@@ -1,0 +1,64 @@
+/*
+Theme Name: Option web — enfant
+Template: twentytwentyone
+Version: 1.0.0
+*/
+
+/* ========== Fiche d'un film (single-film.php) ========== */
+
+.film-fiche {
+	max-width: var(--responsive--aligndefault-width);
+	margin: var(--global--spacing-vertical) auto;
+	padding: var(--global--spacing-unit);
+	border: 2px solid var(--global--color-border);
+	border-radius: 8px;
+	background: var(--global--color-white);
+}
+
+.film-fiche__titre {
+	margin-bottom: calc(var(--global--spacing-unit) / 2);
+}
+
+.film-fiche__annee {
+	display: inline-block;
+	padding: 0.2em 0.8em;
+	border-radius: 999px;
+	background: var(--global--color-primary);
+	color: var(--global--color-background);
+	font-size: var(--global--font-size-xs);
+	font-weight: 700;
+	letter-spacing: var(--global--letter-spacing);
+}
+
+.film-fiche__contenu {
+	margin-top: var(--global--spacing-unit);
+	line-height: var(--global--line-height-body);
+}
+
+
+/* ========== Archive des films (archive-film.php) ========== */
+
+.film-liste {
+	max-width: var(--responsive--aligndefault-width);
+	margin: var(--global--spacing-vertical) auto;
+	padding: 0;
+	list-style: none;
+}
+
+.film-liste__item {
+	display: flex;
+	align-items: baseline;
+	gap: 0.5em;
+	padding: calc(var(--global--spacing-unit) / 2) 0;
+	border-bottom: 1px solid var(--global--color-border);
+}
+
+.film-liste__lien {
+	font-size: var(--global--font-size-lg);
+	font-weight: 700;
+}
+
+.film-liste__annee {
+	color: var(--global--color-secondary);
+	font-size: var(--global--font-size-sm);
+}

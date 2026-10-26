@@ -1,4 +1,12 @@
 .DS_Store
 
-# Module 9 (WordPress) : pas versionné
-/03_m09/
+# Module 9 (WordPress) : pas versionné, sauf le thème enfant
+/03_m09/*
+!/03_m09/wp-content/
+/03_m09/wp-content/*
+!/03_m09/wp-content/themes/
+/03_m09/wp-content/themes/*
+!/03_m09/wp-content/themes/option-web-enfant/
+!/03_m09/wp-content/plugins/
+/03_m09/wp-content/plugins/*
+!/03_m09/wp-content/plugins/ow-notes/
