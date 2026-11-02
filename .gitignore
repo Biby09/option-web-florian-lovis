@@ -10,3 +10,10 @@
 !/03_m09/wp-content/plugins/
 /03_m09/wp-content/plugins/*
 !/03_m09/wp-content/plugins/ow-notes/
+# Module 9 projet (WordPress) : pas versionné, sauf l'extension gestion-responsable
+/031_m09-projet/*
+!/031_m09-projet/wp-content/
+/031_m09-projet/wp-content/*
+!/031_m09-projet/wp-content/plugins/
+/031_m09-projet/wp-content/plugins/*
+!/031_m09-projet/wp-content/plugins/gestion-responsable/
