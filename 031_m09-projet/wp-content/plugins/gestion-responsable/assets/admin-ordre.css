@@ -1,0 +1,65 @@
+:where(#gr_ordre_responsables_container *){
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+#gr_ordre_responsables_container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-rows: fit-content;
+    gap: 20px;
+    height: 100%;
+    margin: 20px 0;
+
+}
+
+.gr_unite_section{
+    height: 100%;
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+
+    padding: 20px 10px;
+}
+
+.gr_unite_section h2{
+    text-align: center;
+    margin-top: 0;
+}
+
+.gr_responsables_list{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.gr_responsable_item:first-child{
+    margin-top: 10px;
+}
+
+.gr_responsable_item{
+    border: 1px solid #ccc;
+    padding: 10px;
+    cursor: move; /* Indique que l'élément est déplaçable */
+    width: 100%;
+    text-align: left;
+
+}
+
+.gr_responsable_item p{
+    margin: 0;
+}
+
+.gr_responsable_item p::before{
+    content: "\2630"; /* Unicode pour l'icône de menu (☰) */
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+.gr_responsable_item:hover{
+    background-color: #f0f0f0;
+}

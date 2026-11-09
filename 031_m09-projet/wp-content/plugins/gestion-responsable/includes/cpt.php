@@ -14,6 +14,7 @@ function gr_register_post_type()
             'set_featured_image' => __('Définir l’image du responsable', 'gestion-responsable'),
             'remove_featured_image' => __('Supprimer l’image du responsable', 'gestion-responsable'),
             'use_featured_image' => __('Utiliser comme image du responsable', 'gestion-responsable'),
+			'all_items' => __('Tous les responsables', 'gestion-responsable'),
 		],
 		'public' => true,
 		'publicly_queryable' => false,
@@ -27,6 +28,8 @@ function gr_register_post_type()
 		'labels' => [
 			'name' => __('Unités', 'gestion-responsable'),
 			'singular_name' => __('Unité', 'gestion-responsable'),
+			'edit_item' => __('Modifier l’unité', 'gestion-responsable'),
+			'add_new_item' => __('Ajouter une unité', 'gestion-responsable'),
 		],
 		'public' => true,
 		'publicly_queryable' => false,
