@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Code ton premier programme</title>
+
+  <!-- CodeMirror 5 (fichiers locaux, aucun CDN) -->
+  <link rel="stylesheet" href="vendor/codemirror/codemirror.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ======== En-tête ======== -->
+  <header class="entete">
+    <p class="logo">Code ton premier programme</p>
+    <nav class="etapes" id="etapes" aria-label="Progression des défis"></nav>
+  </header>
+
+  <!-- ======== Consignes du défi ======== -->
+  <section class="mission" id="mission">
+    <div class="mission-corps">
+      <p class="mission-meta">
+        <span id="mission-numero">Défi 1 sur 5</span>
+        <span class="mission-langage" id="mission-langage">HTML</span>
+      </p>
+      <h1 class="mission-titre" id="mission-titre"></h1>
+      <div class="mission-consigne" id="mission-consigne" tabindex="0" aria-label="Consigne du défi"></div>
+      <div class="palette" id="palette"></div>
+    </div>
+    <aside class="mission-cote">
+      <h2 class="objectifs-titre">Objectifs</h2>
+      <ul class="objectifs" id="objectifs"></ul>
+      <div class="mission-actions">
+        <button class="btn" id="btn-indice" type="button">Afficher un indice</button>
+        <button class="btn" id="btn-reset" type="button">Recommencer le défi</button>
+      </div>
+      <p class="indice" id="indice" hidden></p>
+    </aside>
+  </section>
+
+  <!-- ======== Espace de travail ======== -->
+  <main class="atelier">
+    <section class="panneau panneau-code">
+      <div class="panneau-barre">
+        <span class="panneau-nom">Ton code</span>
+        <span class="barre-info">L'aperçu se met à jour pendant que tu tapes</span>
+      </div>
+      <div class="editeur" id="editeur"></div>
+    </section>
+
+    <section class="panneau panneau-apercu">
+      <div class="panneau-barre">
+        <span class="panneau-nom">Aperçu</span>
+        <span class="statut" id="statut">Chargement…</span>
+      </div>
+      <div class="apercu-cadre" id="apercu-cadre">
+        <iframe id="apercu" title="Aperçu en direct" sandbox="allow-scripts"></iframe>
+        <div class="erreur" id="erreur" hidden></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======== Notifications ======== -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <canvas class="confettis" id="confettis"></canvas>
+
+  <!-- ======== Écran d'accueil ======== -->
+  <div class="voile" id="accueil">
+    <div class="carte-voile">
+      <h2>Code ton premier programme</h2>
+      <p>Cinq petits défis pour découvrir le HTML, le CSS et le JavaScript.
+        Pas besoin de savoir programmer : il suffit de modifier le code.</p>
+      <ol class="liste-defis" id="liste-accueil"></ol>
+      <button class="btn btn-principal" id="btn-commencer" type="button">Commencer</button>
+    </div>
+  </div>
+
+  <!-- ======== Introduction (page web / nouveau langage) ======== -->
+  <div class="voile" id="intro" hidden>
+    <div class="carte-voile carte-intro" role="dialog" aria-modal="true" aria-labelledby="intro-titre">
+      <p class="carte-etiquette" id="intro-etiquette"></p>
+      <h2 id="intro-titre"></h2>
+      <div class="intro-texte" id="intro-texte"></div>
+      <button class="btn btn-principal" id="btn-intro" type="button">À toi de jouer</button>
+    </div>
+  </div>
+
+  <!-- ======== Bravo ======== -->
+  <div class="voile" id="bravo" hidden>
+    <div class="carte-voile">
+      <p class="carte-etiquette" id="bravo-etiquette"></p>
+      <h2 id="bravo-titre">Bravo, c’est réussi !</h2>
+      <p id="bravo-sous"></p>
+      <div class="appris">
+        <p class="appris-etiquette">Ce que tu viens d’apprendre</p>
+        <p id="bravo-appris"></p>
+      </div>
+      <button class="btn btn-principal" id="btn-suivant" type="button">Défi suivant</button>
+      <div class="minuteur"><span id="bravo-minuteur"></span></div>
+    </div>
+  </div>
+
+  <!-- ======== Fin ======== -->
+  <div class="voile" id="final" hidden>
+    <div class="carte-voile">
+      <p class="carte-etiquette">Terminé</p>
+      <h2>Tu as réussi les 5 défis</h2>
+      <p>Tu viens d'écrire du vrai code. Envie d'aller plus loin ? Viens en parler avec nous.</p>
+      <ol class="liste-defis liste-faits" id="liste-appris"></ol>
+      <button class="btn btn-principal" id="btn-rejouer" type="button">Recommencer</button>
+    </div>
+  </div>
+
+  <!-- ======== Inactivité ======== -->
+  <div class="voile voile-veille" id="veille" hidden>
+    <div class="carte-voile carte-petite">
+      <h2>Tu es encore là ?</h2>
+      <p>Retour au début dans <strong id="veille-compte">8</strong> secondes.<br>Bouge la souris pour continuer.</p>
+    </div>
+  </div>
+
+  <script src="vendor/codemirror/codemirror.js"></script>
+  <script src="vendor/codemirror/mode/xml.js"></script>
+  <script src="vendor/codemirror/mode/javascript.js"></script>
+  <script src="vendor/codemirror/mode/css.js"></script>
+  <script src="vendor/codemirror/mode/htmlmixed.js"></script>
+  <script src="vendor/codemirror/addon/xml-fold.js"></script>
+  <script src="vendor/codemirror/addon/closetag.js"></script>
+  <script src="vendor/codemirror/addon/closebrackets.js"></script>
+  <script src="vendor/codemirror/addon/matchbrackets.js"></script>
+
+  <script src="js/defis.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
