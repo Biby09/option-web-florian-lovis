@@ -20,7 +20,7 @@ add_action('admin_menu', 'gr_ajouter_page_ordre');
 
 function gr_render_page_ordre()
 {
-    $unites = get_terms(['taxonomy' => 'unite', 'hide_empty' => false]);
+    $unites = get_terms(['taxonomy' => 'unite', 'hide_empty' => false, 'orderby' => 'term_id']);
 
     echo
         '<form method="post" action="' . esc_url(admin_url('admin-post.php')) . '">
