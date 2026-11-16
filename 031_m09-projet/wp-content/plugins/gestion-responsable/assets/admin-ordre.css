@@ -44,7 +44,7 @@
 .gr_responsable_item{
     border: 1px solid #ccc;
     padding: 10px;
-    cursor: move; /* Indique que l'élément est déplaçable */
+    cursor: move;
     width: 100%;
     text-align: left;
 
@@ -55,7 +55,7 @@
 }
 
 .gr_responsable_item p::before{
-    content: "\2630"; /* Unicode pour l'icône de menu (☰) */
+    content: "\2630";
     margin-right: 10px;
     font-size: 1.2em;
 }

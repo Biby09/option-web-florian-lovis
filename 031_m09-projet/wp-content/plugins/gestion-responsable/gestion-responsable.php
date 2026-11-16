@@ -5,9 +5,9 @@
  * Version:     1.0.0
  * Author:      Florian Lovis
  * Text Domain: gestion-responsable
+ * Requires PHP: 8.4
  */
 
-// Protection : si le fichier est ouvert directement (hors de WordPress), on arrête tout.
 if (!defined('ABSPATH')) {
 	exit;
 }
@@ -15,3 +15,18 @@ if (!defined('ABSPATH')) {
 require_once plugin_dir_path(__FILE__) . 'includes/cpt.php';
 require_once plugin_dir_path(__FILE__) . 'includes/metabox.php';
 require_once plugin_dir_path(__FILE__) . 'includes/ordre.php';
+require_once plugin_dir_path(__FILE__) . 'includes/elementor.php';
+
+function gr_activation() {
+
+	gr_register_post_type();
+
+	$unites = [ 'Groupe', 'Meute', 'Troupe', 'Poste', 'Route' ];
+
+	foreach ( $unites as $nom ) {
+		if ( ! term_exists( $nom, 'unite' ) ) {
+			wp_insert_term( $nom, 'unite' );
+		}
+	}
+}
+register_activation_hook( __FILE__, 'gr_activation' );

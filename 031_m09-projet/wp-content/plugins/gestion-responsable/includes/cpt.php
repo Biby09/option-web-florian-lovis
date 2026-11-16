@@ -49,7 +49,7 @@ function gr_colonnes_unites( $colonnes ) {
 add_filter( 'manage_edit-unite_columns', 'gr_colonnes_unites' );
 
 function gr_simplifier_unites() {
-	$ecran = get_current_screen();          // quel écran admin est affiché ?
+	$ecran = get_current_screen();
 	if ( $ecran->taxonomy !== 'unite' ) {
 		return;
 	}

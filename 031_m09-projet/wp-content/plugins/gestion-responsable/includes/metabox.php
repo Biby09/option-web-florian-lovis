@@ -6,13 +6,13 @@ if (!defined('ABSPATH')) {
 function gr_add_metabox()
 {
     add_meta_box(
-        'gr_identite',                          // identifiant unique du cadre
-        __('Identité', 'gestion-responsable'), // titre affiché
-        'gr_render_metabox',                     // fonction qui affiche le contenu
-        'responsable',                          // type de contenu sur lequel afficher le cadre
+        'gr_identite',
+        __('Identité', 'gestion-responsable'),
+        'gr_render_metabox',
+        'responsable',
     );
 
-    remove_meta_box( 'pageparentdiv', 'responsable', 'side' );
+    remove_meta_box('pageparentdiv', 'responsable', 'side');
 
 }
 add_action('add_meta_boxes', 'gr_add_metabox');
@@ -20,7 +20,7 @@ add_action('add_meta_boxes', 'gr_add_metabox');
 function gr_render_metabox($post)
 {
 
-    $fonctions = $post->post_excerpt === [''] ? [] : explode("\n", $post->post_excerpt);
+    $fonctions = $post->post_excerpt === '' ? [] : explode("\n", $post->post_excerpt);
 
     echo '<p class="description">' . esc_html__('Le prénom et le nom sont obligatoires. Le totem est optionnel.', 'gestion-responsable') . '</p>';
     echo '<table class="form-table" role="presentation">';
@@ -51,9 +51,9 @@ function gr_render_metabox($post)
         echo '</tr>';
     } else {
         foreach ($fonctions as $index => $fonction) {
-            $index++; // Incrémenter l'index pour commencer à 1 au lieu de 0
+            $index++;
             echo '<tr>';
-            echo '<th scope="row"><label for="gr_fonction_' . esc_attr($index) . '">' . esc_html__('Fonction', 'gestion-responsable') . ' ' . esc_html__($index) . '</label></th>';
+            echo '<th scope="row"><label for="gr_fonction_' . esc_attr($index) . '">' . esc_html__('Fonction', 'gestion-responsable') . ' ' . esc_html($index) . '</label></th>';
             echo '<td><input type="text" id="gr_fonction_' . esc_attr($index) . '" name="gr_fonction[]" class="regular-text" value="' . esc_attr($fonction) . '" /></td>';
             echo '</tr>';
         }
@@ -67,38 +67,8 @@ function gr_render_metabox($post)
 
     echo '</table>';
 
-    echo '<script>
-        document.getElementById("gr_add_fonction").addEventListener("click", function() {
-            const container = document.getElementById("gr_fonctions_container");
-            const newIndex = container.querySelectorAll("input").length + 1;
-
-            const input = document.createElement("input");
-            input.type = "text";
-            input.name = "gr_fonction[]";
-            input.id = "gr_fonction_" + newIndex;
-            input.className = "regular-text";
-
-            const label = document.createElement("label");
-            label.htmlFor = input.id;
-            label.textContent = "' . esc_js(__('Fonction', 'gestion-responsable')) . ' " + (newIndex);
-
-            const tr = document.createElement("tr");
-            const thLabel = document.createElement("th");
-            thLabel.scope = "row";
-            const tdInput = document.createElement("td");
-            thLabel.appendChild(label);
-            tdInput.appendChild(input);
-            tr.appendChild(thLabel);
-            tr.appendChild(tdInput);
-            container.appendChild(tr);
-
-            input.focus();
-        });
-    </script>';
-
     wp_nonce_field('gr_save_metabox', 'gr_metabox_nonce');
 }
-
 
 function gr_sanitize_name($string)
 {
@@ -107,16 +77,13 @@ function gr_sanitize_name($string)
 function gr_save_metabox($post_id)
 {
 
-    // Garde 1 : le nonce existe-t-il ET est-il valide ?
     if (!isset($_POST['gr_metabox_nonce']) || !wp_verify_nonce($_POST['gr_metabox_nonce'], 'gr_save_metabox')) {
         return;
     }
 
-    // Garde 2 : l'utilisateur a-t-il le droit de modifier cette fiche ?
     if (!current_user_can('edit_post', $post_id)) {
         return;
     }
-
 
     if (isset($_POST['gr_prenom'])) {
         update_post_meta($post_id, 'gr_prenom', gr_sanitize_name($_POST['gr_prenom']));
@@ -134,15 +101,25 @@ add_action('save_post_responsable', 'gr_save_metabox');
 
 function gr_generer_titre($data)
 {
-    // 1. Si ce n'est pas un responsable → return $data; tel quel
+
     if ($data['post_type'] !== 'responsable') {
         return $data;
     }
-    // 2. Mêmes gardes nonce que tout à l'heure → sinon return $data;
+
     if (!isset($_POST['gr_metabox_nonce']) || !wp_verify_nonce($_POST['gr_metabox_nonce'], 'gr_save_metabox')) {
         return $data;
     }
-    // 3. Récupérer prénom, nom, totem depuis $_POST (nettoyés)
+
+    $unites = [];
+    if (isset($_POST['tax_input']['unite']) && is_array($_POST['tax_input']['unite'])) {
+        $unites = array_map('absint', $_POST['tax_input']['unite']);
+        $unites = array_filter($unites);
+    }
+
+    if (empty($unites) && $data['post_status'] === 'publish') {
+        $data['post_status'] = 'draft';
+    }
+
     $prenom = isset($_POST['gr_prenom']) ? gr_sanitize_name($_POST['gr_prenom']) : '';
     $nom = isset($_POST['gr_nom']) ? gr_sanitize_name($_POST['gr_nom']) : '';
     $totem = isset($_POST['gr_totem']) ? gr_sanitize_name($_POST['gr_totem']) : '';
@@ -159,10 +136,36 @@ function gr_generer_titre($data)
 
     if (isset($_POST['gr_fonction']) && is_array($_POST['gr_fonction'])) {
         $fonctions = array_map('gr_sanitize_name', $_POST['gr_fonction']);
-        $fonctions = array_filter($fonctions); // Supprimer les fonctions vides
+        $fonctions = array_filter($fonctions);
         $data['post_excerpt'] = implode("\n", $fonctions);
     }
 
     return $data;
 }
 add_filter('wp_insert_post_data', 'gr_generer_titre');
+
+function gr_scripts_fiche( $hook ) {
+
+	if ( ! in_array( $hook, [ 'post.php', 'post-new.php' ] ) ) {
+		return;
+	}
+
+	if ( get_current_screen()->post_type !== 'responsable' ) {
+		return;
+	}
+
+	wp_enqueue_script(
+		'gr-admin-fiche',
+        plugin_dir_url( __DIR__ ) . 'assets/admin-fiche.js',
+		[ 'jquery' ],
+		'1.0.0',
+		true
+	);
+
+	wp_localize_script( 'gr-admin-fiche', 'grFiche', [
+		'messageUnite' => __( 'Cochez au moins une unité.', 'gestion-responsable' ),
+        'libelleFonction' => __( 'Fonction', 'gestion-responsable' ),
+	] );
+}
+
+add_action( 'admin_enqueue_scripts', 'gr_scripts_fiche' );
