@@ -44,3 +44,12 @@ function gr_filtrer_query_elementor($query)
         $query->set('posts_per_page', -1);
     }
 }
+
+function gr_retours_ligne_fonctions($contenu, $widget)
+{
+    if ($widget->get_name() !== 'theme-post-excerpt' || get_post_type() !== 'responsable') {
+        return $contenu;
+    }
+    return nl2br($contenu);
+}
+add_filter('elementor/widget/render_content', 'gr_retours_ligne_fonctions', 10, 2);
