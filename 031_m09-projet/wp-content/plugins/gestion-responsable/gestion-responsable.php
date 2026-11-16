@@ -21,7 +21,7 @@ function gr_activation() {
 
 	gr_register_post_type();
 
-	$unites = [ 'Groupe', 'Meute', 'Troupe', 'Poste', 'Route' ];
+	$unites = [ 'Meute', 'Troupe', 'Poste', 'Route', 'Groupe' ];
 
 	foreach ( $unites as $nom ) {
 		if ( ! term_exists( $nom, 'unite' ) ) {
