@@ -64,6 +64,19 @@ function gr_render_page_ordre()
     }
 
     echo '</div>';
+
+    $image_id = (int) get_option('gr_image_defaut', 0);
+
+    echo
+        '<h2>' . esc_html__('Image par défaut', 'gestion-responsable') . '</h2>
+        <p class="description">' . esc_html__('Utilisée pour les responsables sans photo.', 'gestion-responsable') . '</p>
+        <input type="hidden" id="gr_image_defaut" name="gr_image_defaut" value="' . esc_attr($image_id) . '">
+        <div id="gr_image_apercu">' . ($image_id ? wp_get_attachment_image($image_id, 'thumbnail') : '') . '</div>
+        <p>
+            <button type="button" class="button" id="gr_choisir_image">' . esc_html__('Choisir une image', 'gestion-responsable') . '</button>
+            <button type="button" class="button-link button-link-delete" id="gr_retirer_image"' . ($image_id ? '' : ' hidden') . '>' . esc_html__('Retirer l’image', 'gestion-responsable') . '</button>
+        </p>';
+
     wp_nonce_field('gr_sauver_ordre', 'gr_ordre_nonce');
     submit_button(__('Enregistrer', 'gestion-responsable'));
     echo '</div></form>';
@@ -92,6 +105,14 @@ function gr_sauver_ordre()
             $ids = array_map('absint', $ids);
             update_term_meta($unite_id, 'gr_ordre', $ids);
         }
+    }
+
+    if (isset($_POST['gr_image_defaut'])) {
+        $image_id = absint($_POST['gr_image_defaut']);
+        if ($image_id && !wp_attachment_is_image($image_id)) {
+            $image_id = 0;
+        }
+        update_option('gr_image_defaut', $image_id);
     }
 
     wp_safe_redirect(admin_url('edit.php?post_type=responsable&page=gr_ordre_responsables&gr_message=ok'));
@@ -127,19 +148,26 @@ function gr_scripts_ordre($hook)
     if ($hook !== 'responsable_page_gr_ordre_responsables') {
         return;
     }
+    wp_enqueue_media();
+
     wp_enqueue_script(
         'gr-admin-ordre',
         plugin_dir_url(__DIR__) . 'assets/admin-ordre.js',
         ['jquery-ui-sortable'],
-        '1.0.0',
+        '1.1.0',
         true
     );
+
+    wp_localize_script('gr-admin-ordre', 'grOrdre', [
+        'titreMediatheque' => __('Image par défaut des responsables', 'gestion-responsable'),
+        'boutonMediatheque' => __('Utiliser cette image', 'gestion-responsable'),
+    ]);
 
     wp_enqueue_style(
         'gr-admin-ordre',
         plugin_dir_url(__DIR__) . 'assets/admin-ordre.css',
         [],
-        '1.0.0'
+        '1.1.0'
     );
 }
 add_action('admin_enqueue_scripts', 'gr_scripts_ordre');

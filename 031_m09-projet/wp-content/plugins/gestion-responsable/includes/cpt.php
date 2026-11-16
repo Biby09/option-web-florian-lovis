@@ -63,3 +63,12 @@ function gr_simplifier_unites() {
     </style>';
 }
 add_action( 'admin_head', 'gr_simplifier_unites' );
+
+function gr_image_par_defaut( $thumbnail_id, $post ) {
+	if ( $thumbnail_id || ! $post || $post->post_type !== 'responsable' ) {
+		return $thumbnail_id;
+	}
+	$defaut = (int) get_option( 'gr_image_defaut', 0 );
+	return $defaut ? $defaut : $thumbnail_id;
+}
+add_filter( 'post_thumbnail_id', 'gr_image_par_defaut', 10, 2 );
